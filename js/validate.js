@@ -12,14 +12,19 @@ function init() {
 
     if (isLocalFile) {
         // Local file case: Include the DOCTYPE manually if necessary
-        const pageContent = `<!DOCTYPE html>\n` + document.documentElement.outerHTML;
-
-        fetch("https://validator.w3.org/nu/?out=json", {
+        // I originally had document.documentElement.outerHTML here.
+        // That was returning the current DOM state, which has already been
+        // cleaned up by the browser. This version passes the raw local file.
+        fetch(window.location.href)
+        .then(response => response.text())
+        .then(rawContent => {
+            return fetch("https://validator.w3.org/nu/?out=json", {
             method: "POST",
             headers: {
                 "Content-Type": "text/html; charset=utf-8"
             },
-            body: pageContent
+            body: rawContent
+            });
         })
         .then(response => response.json())
         .then(data => {
