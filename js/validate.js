@@ -1,6 +1,6 @@
 function init() {
     const loc = window.location.href;
-    const isLocalFile = loc.startsWith("file://");
+    const isLocalFile = checkLocalFile();
 
     // Check if the document has a valid doctype
     let hasValidDoctype = checkDoctype();
@@ -51,6 +51,11 @@ function init() {
     }
 }
 
+function checkLocalFile() {
+    const loc = window.location.href;
+    return loc.startsWith("file://") || loc.startsWith("http://localhost") || loc.startsWith("http://127.0.0.1");
+}
+
 // Function to check if the document has a valid <!DOCTYPE html>
 function checkDoctype() {
     if (document.doctype) {
@@ -86,7 +91,7 @@ function renderValidationResults(data) {
             <a id="vLink2" href="https://jigsaw.w3.org/css-validator/validator?uri=${window.location.href}?profile=css3">Validate CSS</a>
         </p>
     `;
-    if(window.location.href.startsWith("file://") && !isHTMLValid) {
+    if(checkLocalFile() && !isHTMLValid) {
         ValidatorHTML += `<p>There might be multiple errors. Here is the first one:</p>
         <table>
         <thead>
