@@ -1,4 +1,2 @@
-# My website repo!
+# cj0ne5.github.io
 
-I'll be developing this website for 
-ITD110, a web design class at Arlington Tech
