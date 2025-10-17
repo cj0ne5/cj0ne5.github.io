@@ -1,4 +1,3 @@
-# Hi - This is my repo
+# cj0ne5.github.io
 
-I'm developing this for ITD110 - a web design class at Arlington Tech
 
