@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Animation</title>
+    </head>
+    <body>
+        <canvas id="myCanvas"
+                width=800
+                height=800>
+        </canvas>
+        <script>
+        const canvas = document
+            .getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+        let x = 1;
+        function animate(){
+            x = x + 1; // = is "assign"
+                       // not equality
+            ctx.clearRect(0,0,800,800);
+            ctx.fillRect(x,100,10,10);
+            requestAnimationFrame(animate);
+        }
+        animate();
+        </script>
+    </body>
+</html>

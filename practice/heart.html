@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Heart</title>
+<style>
+canvas{
+    border: 1px black solid;
+    display: block;
+    margin: auto;
+}
+</style>
+    </head>
+    <body>
+        <h1>Behold! A Heart!</h1>
+        <canvas width=800 height=800 id="heart"></canvas>
+
+        <script>
+            //setup the canvas
+            const canvas = document.getElementById("heart");
+            const ctx = canvas.getContext("2d");
+            
+            //setup the colors for fill and stroke
+            ctx.fillStyle="pink";
+            ctx.strokeStyle="#f5424e";
+            ctx.lineWidth = 10;
+
+            //Draw the background
+            ctx.fillRect(0,0,800,800);
+
+            //draw the heart
+            ctx.fillStyle="#f542f2";
+            ctx.beginPath();
+            
+            //arc(x,y,radius,start,stop) 
+            ctx.arc(200,200,200,-Math.PI,0); //top-left "lobe"
+            ctx.arc(600,200,200,-Math.PI,0); //top-right "lobe"   
+            ctx.lineTo(400,800); //line to the bottom
+            ctx.lineTo(0,200); //line back to the start
+            
+            //ellipse
+            ctx.beginPath();
+            ctx.fillStyle="green";
+            ctx.ellipse(
+                300,300, //x,y of the center
+                300, //radius along the x axis
+                100, //radius along the y axis
+                Math.PI/4, //rotation
+                Math.PI, 2*Math.PI //start, stop
+                )
+            ctx.fill();
+
+            //color it in
+            ctx.fill();
+            ctx.stroke();
+
+        </script>
+    </body>
+</html>
+

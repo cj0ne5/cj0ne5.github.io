@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Behold! The Holy Grail!</title>
+        <style>
+        .grid {
+          display: grid;
+          height: 100vh;
+          gap: 10px;
+          grid:
+            'head  head' 1fr
+            'menu  main' 3fr
+            'foot  foot' 2fr
+            /200px 1fr;
+        }
+        #main{
+            grid-area: main;
+            background-color: purple;
+            color: white;
+            font-size: 30px;
+            text-align: center;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="grid">
+            <div id="main">Main</div>
+        </div>
+    </body>
+</html>
