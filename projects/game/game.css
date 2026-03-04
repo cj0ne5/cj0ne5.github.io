@@ -12,6 +12,12 @@ h1{
     text-align: center;
 }
 
+.location{
+    background-color:aqua;
+    color: black;
+    border-radius:5px;
+}
+
 #terminal {
     height: 80%;
     display: flex;

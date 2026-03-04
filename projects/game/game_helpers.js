@@ -3,7 +3,7 @@
 function print(text) {
     const output = document.getElementById('output');
     const line = document.createElement('div');
-    line.textContent = text;
+    line.innerHTML = "<p>" + text + "</p>";
     output.appendChild(line);
     output.scrollTop = output.scrollHeight;
 }

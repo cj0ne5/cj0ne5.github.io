@@ -216,7 +216,8 @@ function portable() {
     portableDiscovered = true;
     if (!check_time()) return;
     
-    print("you have entered the portable. A toddler runs past you, and " +
+    print('you have entered the <span class="location">portable</span>. ' +
+        "A toddler runs past you, and " +
         "you're distracted by all the cool student art on the walls! ");
     print("\nWhere would you like to go next? Say one of these choices:" +
         "\n\toutside\n\tbathroom\n\trm511");
@@ -241,7 +242,8 @@ function outside() {
     outsideDiscovered = true;
     if (!check_time()) return;
     
-    print("You're outside! The busses have left, so there's not much to do " +
+    print('You are <span class="location">outside!</span>. ' + 
+        "The busses have left, so there's not much to do " +
         "out here." );
     print("\nWhere would you like to go next? Say one of these choices:" +
         "\n\tcommons\n\tportable\n\tMcDonalds");
@@ -358,7 +360,8 @@ function bathroom() {
     
     print("");
     print("༼ ºل͟º༼ ºل͟º ༽ºل͟º ༽");
-    print("\nYou are now in the bathroom. There are like 20 people just " +
+    print('\nYou are now in the <span class="location">bathroom</span>. ' + 
+        "There are like 20 people just " +
         "standing around in there.");
     print("\nWhy? Is this really the best place for them to hang out?");
     print("\nDo you want to join them? Say yes or no");
@@ -418,7 +421,8 @@ function library() {
     if (!check_time()) return;
     
     if (!haveCup) {
-        print("Welcome to the library. What would you like to do here?");
+        print('Welcome to the <span class="location">library</span>. ' + 
+        "What would you like to do here?");
     } else if (haveCup && !cupIsFull) {
         printAscii(`
         )  (
@@ -485,7 +489,8 @@ function commons() {
         )
     }
     
-    print("\nYou are in the commons. Someone is on a megaphone saying that " +
+    print('\nYou are in the <span class="location">commons</span>. ' + 
+        "Someone is on a megaphone saying that " +
         "everyone needs to get to class, but you think you still " +
         "have plenty of time.");
     print("\nWhere would you like to go? Say one of these choices: " +
