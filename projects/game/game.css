@@ -8,8 +8,12 @@ body {
     box-sizing: border-box;
 }
 
+h1{
+    text-align: center;
+}
+
 #terminal {
-    height: 90%;
+    height: 80%;
     display: flex;
     flex-direction: column;
     max-width: 80%;
@@ -61,5 +65,4 @@ body {
     color: #00ff00;
     line-height: 1.2;
     font-size: 12px;
-    text-align:center;
 }

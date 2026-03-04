@@ -4,6 +4,14 @@ let cupIsFull = false;
 let day = 0;
 let minutes = 0;
 let gameActive = true;
+let commonsDiscovered = true;
+let outsideDiscovered = false;
+let cafeteriaDiscovered = false;
+let boxDiscovered = false;
+let libraryDiscovered = false;
+let portableDiscovered = false;
+let rm511Discovered = false;
+let bathroomDiscovered = false; 
 
 
 // Game functions
@@ -15,10 +23,82 @@ function check_time() {
         tardy();
         return false;
     } else {
-        print("class now starts in " + (15 - minutes) + " minutes");
+        drawMap();
+        print("---");
+        print("It is 7:" + (45+minutes) + ". Class starts in " + (15 - minutes) + " minutes");
         print("---");
         return true;
     }
+}
+
+function drawMap(){
+    let map = ``;
+
+    if(boxDiscovered){
+        map += `
+                                         -------
+                                         | Box |
+                                         -------
+                                             |`;
+    }
+    if(libraryDiscovered && commonsDiscovered && cafeteriaDiscovered){
+        map += `
+        -----------    -----------    -------------
+        | Library |----| Commons |----| Cafeteria |
+        -----------    -----------    -------------
+                           |`;
+    }else if(libraryDiscovered && commonsDiscovered){
+        map += `
+        -----------    -----------
+        | Library |----| Commons |
+        -----------    -----------
+                           |`;
+    }else if(cafeteriaDiscovered && commonsDiscovered){
+        map += `
+                       -----------    -------------
+                       | Commons |----| Cafeteria |
+                       -----------    -------------
+                           |`;
+    }else{
+        map += `
+                       -----------
+                       | Commons |
+                       -----------
+                           |`;
+    }
+    map += `
+                      -----------
+                      | Outside |
+                      -----------`;
+    
+    if(portableDiscovered && rm511Discovered && bathroomDiscovered){
+        map += `
+                           |
+        ---------    ------------    ------------
+        | rm511 |----| Portable |----| Bathroom |
+        ---------    ------------    ------------`
+    }else if(portableDiscovered && rm511Discovered){
+        map += `
+                           |
+        ---------    ------------
+        | rm511 |----| Portable |
+        ---------    ------------`
+
+    }else if(portableDiscovered && bathroomDiscovered){
+        map += `
+                           |
+                     ------------    ------------
+                     | Portable |----| Bathroom |
+                     ------------    ------------`
+    }else if(portableDiscovered){
+        map += `
+                           |
+                     ------------
+                     | Portable |
+                     ------------`
+    }
+
+    printAscii(map);
 }
 
 function tardy() {
@@ -26,7 +106,7 @@ function tardy() {
     
     if (day < 5) {
         print("\nwould you like to try again tomorrow? Say yes or no");
-        handleInput = function(input) {
+        function processInput(input){
             if (input.toLowerCase() === "yes") {
                 day++;
                 minutes = 0;
@@ -39,7 +119,9 @@ function tardy() {
             } else {
                 print("Please type 'yes' or 'no'");
             }
-        };
+        }
+
+        waitForInput(processInput);
     } else {
         gameActive = false;
     }
@@ -61,7 +143,7 @@ function start() {
             "class of the day is web design with Chris Jones.");
     print("\nTo get off the bus, type Start");
     
-    handleInput = function(input) {
+    function processInput(input){
         if (input.toLowerCase() === "start") {
             commons();
         } else {
@@ -69,7 +151,9 @@ function start() {
                 "You're going to have to get off the bus.");
             print("To get off the bus, type Start");
         }
-    };
+    }
+
+    waitForInput(processInput);
 }
 
 function getDayName(dayNum) {
@@ -78,6 +162,7 @@ function getDayName(dayNum) {
 }
 
 function box() {
+    boxDiscovered = true;
     if (!check_time()) return;
     
     printAscii(` 
@@ -95,12 +180,15 @@ __  _.-"\` \`'-.
          "the hallway. They say that the box isn't open right now.");
     print("\nPress enter to go back.");
     
-    handleInput = function(input) {
+    function processInput(input){
         commons();
-    };
+    }
+
+    waitForInput(processInput);
 }
 
 function cafeteria() {
+    cafeteriaDiscovered = true;
     if (!check_time()) return;
     
     print("\nYou eat some food. And you're a good student so you put your " +
@@ -108,7 +196,7 @@ function cafeteria() {
     print("\nWhat would you like to do next? Say one of these choices:" +
         "\n\tcommons\n\tbox\n\tstay here");
     
-    handleInput = function(input) {
+    function processInput(input){
         if (input.toLowerCase() === "commons") {
             commons();
         } else if (input.toLowerCase() === "stay here") {
@@ -116,14 +204,16 @@ function cafeteria() {
         } else if (input.toLowerCase() === "box") {
             box();
         } else {
-            print("\nsorry, I don't understand your input. I'll assume you" +
-                "want to stay here");
-            setTimeout(cafeteria,2000);
+            stayHere();
+            waitThenCall(cafeteria);
         }
-    };
+    }
+
+    waitForInput(processInput);
 }
 
 function portable() {
+    portableDiscovered = true;
     if (!check_time()) return;
     
     print("you have entered the portable. A toddler runs past you, and " +
@@ -131,7 +221,7 @@ function portable() {
     print("\nWhere would you like to go next? Say one of these choices:" +
         "\n\toutside\n\tbathroom\n\trm511");
     
-    handleInput = function(input) {
+    function processInput(input){
         if (input.toLowerCase() === "bathroom") {
             bathroom();
         } else if (input.toLowerCase() === "rm511") {
@@ -139,35 +229,62 @@ function portable() {
         } else if (input.toLowerCase() === "outside") {
             outside();
         } else {
-            print("\nsorry, I don't understand your input. I'll assume you" +
-                 "want to stay here");
-            setTimeout(portable,2000);
+            stayHere();
+            waitThenCall(portable);
         }
-    };
+    }
+
+    waitForInput(processInput);
 }
 
 function outside() {
+    outsideDiscovered = true;
     if (!check_time()) return;
     
     print("You're outside! The busses have left, so there's not much to do " +
         "out here." );
     print("\nWhere would you like to go next? Say one of these choices:" +
-        "\n\tcommons\n\tportable");
+        "\n\tcommons\n\tportable\n\tMcDonalds");
     
-    handleInput = function(input) {
+    function processInput(input){
         if (input.toLowerCase() === "commons") {
             commons();
         } else if (input.toLowerCase() === "portable") {
             portable();
+        } else if (input.toLowerCase() === "mcdonalds") {
+            mcdonalds();
         } else {
-            print("\nsorry, I don't understand your input. I'll assume you" +
-                 "want to stay here");
-            setTimeout(outside,2000);
+            stayHere();
+            waitThenCall(outside);
         }
-    };
+    }
+
+    waitForInput(processInput);
+}
+
+function mcdonalds() {
+    if (!check_time()) return;
+    
+    printAscii(` 
+__  _.-"\` \`'-.
+/||\\'.__ __{}_(
+||||  |'--.__\\
+|  L.(   ^_^|
+\\ .-' |   _ |
+| |   )\\___/
+|  \\-'\`:._]
+\\__/;      '-.
+`);
+    
+    print("\nYou got caught by Mr. Mainor.");
+    print("\nHe calls your parents and sends you home.");
+    print("\nTry to make it to class tomorrow.");
+
+    tardy();
 }
 
 function rm511() {
+    rm511Discovered = true;
     if (!check_time()) return;
 
     if (!haveCup) {
@@ -193,10 +310,12 @@ function rm511() {
             "all before the bell rings!");
         print("\nPress enter to go back out to the hallway");
         
-        handleInput = function(input) {
+        function processInput(input){
             haveCup = true;
             portable();
-        };
+        }
+
+        waitForInput(processInput);
     } else if (haveCup && !cupIsFull) {
         printAscii(`
 
@@ -215,9 +334,11 @@ function rm511() {
              "waiting for??");
         print("\nPress enter to go back out to the hallway");
         
-        handleInput = function(input) {
+        function processInput(input){
             portable();
-        };
+        }
+
+        waitForInput(processInput);
     } else {
         print("You hand Chris the coffee.");
         setTimeout(function() {
@@ -228,11 +349,11 @@ function rm511() {
                 gameActive = false;
             },2000);
         },2000);
-        handleInput = function() {}; // Disable input during the ending sequence
     }
 }
 
 function bathroom() {
+    bathroomDiscovered = true;
     if (!check_time()) return;
     
     print("");
@@ -242,7 +363,7 @@ function bathroom() {
     print("\nWhy? Is this really the best place for them to hang out?");
     print("\nDo you want to join them? Say yes or no");
     
-    handleInput = function(input) {
+    function processInput(input){
         if (input.toLowerCase() === "yes") {
             print("\nyou step into the group and a trance comes over you");
             print("\nyou stare at yourself in the mirror and " +
@@ -284,13 +405,16 @@ function bathroom() {
                 },2000);
             },2000);
         } else {
-            print("\nsorry, I don't understand your input.");
-            setTimeout(bathroom,1000);
+            stayHere();
+            waitThenCall(bathroom);
         }
-    };
+    }
+
+    waitForInput(processInput);
 }
 
 function library() {
+    libraryDiscovered = true;
     if (!check_time()) return;
     
     if (!haveCup) {
@@ -321,7 +445,7 @@ function library() {
 
     print("\nSay one of these choices:\n\tread a book\n\tleave");
     
-    handleInput = function(input) {
+    function processInput(input){
         if (input.toLowerCase() === "read a book") {
             print("you cozy into a chair, open a good book, " +
                 "and lose track of time");
@@ -338,15 +462,17 @@ function library() {
         } else if (input.toLowerCase() === "leave") {
             commons();
         } else {
-            print("sorry, I don't understand your input. I'll assume you want " +
-                "to chill here for a bit");
-            setTimeout(library,1000);
+            stayHere();
+            waitThenCall(library);
         }
-    };
+    }
+
+    waitForInput(processInput);
 }
 
 
 function commons() {
+    commonsDiscovered = true;
 
 
     if (!check_time()) return;
@@ -366,7 +492,7 @@ function commons() {
         "\n\tlibrary\n\tcafeteria\n\toutside " +
         "\n\tstay in commons");
     
-    handleInput = function(input) {
+    function processInput(input){
         if (input.toLowerCase() === "library") {
             library();
         } else if (input.toLowerCase() === "cafeteria") {
@@ -376,14 +502,10 @@ function commons() {
         } else if (input.toLowerCase() === "stay in commons") {
             commons();
         } else {
-            print("sorry, I don't understand your input. I'll assume you want \
-                to stay in commons");
-            setTimeout(commons,1000);
+            stayHere();
+            waitThenCall(commons);
         }
-    };
-}
+    }
 
-// Start the game
-window.onload = function() {
-    start();
-};
+    waitForInput(processInput);
+}
