@@ -9,10 +9,10 @@ body {
 }
 
 #terminal {
-    height: 100%;
+    height: 90%;
     display: flex;
     flex-direction: column;
-    max-width: 800px;
+    max-width: 80%;
     margin: 0 auto;
     border: 2px solid #00ff00;
     padding: 20px;
@@ -61,17 +61,5 @@ body {
     color: #00ff00;
     line-height: 1.2;
     font-size: 12px;
-}
-
-#output::-webkit-scrollbar {
-    width: 10px;
-}
-
-#output::-webkit-scrollbar-track {
-    background: #000;
-}
-
-#output::-webkit-scrollbar-thumb {
-    background: #00ff00;
-    border: 1px solid #000;
+    text-align:center;
 }
