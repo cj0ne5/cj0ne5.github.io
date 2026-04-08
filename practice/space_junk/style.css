@@ -1,0 +1,16 @@
+canvas{
+    border:1px solid black;
+    display:block;
+    margin: auto;
+}
+h1{
+    text-align:center;
+}
+#instructions{
+    text-align:center;
+    font-size:3em;
+}
+body{
+    background: linear-gradient(90deg,rgba(2, 0, 36, 1), rgba(9, 9, 121, 1));
+    color:white;
+}
