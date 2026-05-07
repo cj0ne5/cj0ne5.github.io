@@ -8,6 +8,7 @@ function sound(src) {
   this.sound.src = src;
   this.sound.setAttribute("preload", "auto");
   this.sound.setAttribute("controls", "none");
+  this.sound.setAttribute("loop","");
   this.sound.style.display = "none";
   document.body.appendChild(this.sound);
   this.play = function(){
